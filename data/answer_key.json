@@ -1,0 +1,370 @@
+{
+ "report_date": "2026-10-30",
+ "orders": {
+  "2026-101": {
+   "stage": "Проект",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Ирина Л."
+  },
+  "2026-102": {
+   "stage": "Не определён",
+   "overdue_days": 0,
+   "flags": [
+    "неизвестный статус",
+    "нет в CRM"
+   ],
+   "responsible": "Дина С."
+  },
+  "2026-103": {
+   "stage": "Проект",
+   "overdue_days": 0,
+   "flags": [
+    "срок расходится"
+   ],
+   "responsible": "Олег Р."
+  },
+  "2026-104": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [
+    "закрыт с опозданием"
+   ],
+   "responsible": "—"
+  },
+  "2026-105": {
+   "stage": "Готов к монтажу",
+   "overdue_days": 1,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-106": {
+   "stage": "Готов к монтажу",
+   "overdue_days": 6,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "цех"
+  },
+  "2026-107": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "—"
+  },
+  "2026-108": {
+   "stage": "Проект",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Олег Р."
+  },
+  "2026-109": {
+   "stage": "Замер",
+   "overdue_days": 0,
+   "flags": [
+    "дубль с расхождением"
+   ],
+   "responsible": "Ирина Л."
+  },
+  "2026-110": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "—"
+  },
+  "2026-111": {
+   "stage": "Готов к монтажу",
+   "overdue_days": 5,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-112": {
+   "stage": "Монтаж",
+   "overdue_days": 21,
+   "flags": [],
+   "responsible": "Бригада 2"
+  },
+  "2026-113": {
+   "stage": "Готов к монтажу",
+   "overdue_days": 8,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-114": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "цех"
+  },
+  "2026-115": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [
+    "неизвестный статус"
+   ],
+   "responsible": "цех"
+  },
+  "2026-116": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "—"
+  },
+  "2026-117": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [
+    "закрыт с опозданием"
+   ],
+   "responsible": "—"
+  },
+  "2026-118": {
+   "stage": "Монтаж",
+   "overdue_days": 12,
+   "flags": [],
+   "responsible": "Бригада 1"
+  },
+  "2026-119": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-120": {
+   "stage": "Готов к монтажу",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-121": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-122": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "—"
+  },
+  "2026-123": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "—"
+  },
+  "2026-124": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [
+    "закрыт с опозданием",
+    "нет в CRM"
+   ],
+   "responsible": "—"
+  },
+  "2026-125": {
+   "stage": "Производство",
+   "overdue_days": 4,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "цех"
+  },
+  "2026-126": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-127": {
+   "stage": "Рекламация",
+   "overdue_days": 0,
+   "flags": [
+    "закрыт с опозданием"
+   ],
+   "responsible": "Бригада 2"
+  },
+  "2026-128": {
+   "stage": "Закрыт",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "—"
+  },
+  "2026-129": {
+   "stage": "Договор",
+   "overdue_days": null,
+   "flags": [
+    "дата не распознана",
+    "нет в CRM",
+    "нет срока"
+   ],
+   "responsible": "Анна К."
+  },
+  "2026-130": {
+   "stage": "Договор",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "Марат Г."
+  },
+  "2026-131": {
+   "stage": "Рекламация",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Бригада 3"
+  },
+  "2026-132": {
+   "stage": "Монтаж",
+   "overdue_days": 6,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Бригада 2"
+  },
+  "2026-133": {
+   "stage": "Замер",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Ирина Л."
+  },
+  "2026-134": {
+   "stage": "Замер",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Марат Г."
+  },
+  "2026-135": {
+   "stage": "Проект",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Ирина Л."
+  },
+  "2026-136": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-137": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "цех"
+  },
+  "2026-138": {
+   "stage": "Производство",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "цех"
+  },
+  "2026-139": {
+   "stage": "Договор",
+   "overdue_days": 0,
+   "flags": [],
+   "responsible": "Ирина Л."
+  },
+  "2026-140": {
+   "stage": "Проект",
+   "overdue_days": 0,
+   "flags": [
+    "нет в CRM"
+   ],
+   "responsible": "Дина С."
+  },
+  "2026-141": {
+   "stage": "Проект",
+   "overdue_days": 0,
+   "flags": [
+    "нет в таблице продаж"
+   ],
+   "responsible": "менеджер не указан"
+  },
+  "2026-142": {
+   "stage": "Производство",
+   "overdue_days": null,
+   "flags": [
+    "нет в CRM",
+    "нет в таблице продаж",
+    "нет срока"
+   ],
+   "responsible": "цех"
+  }
+ },
+ "unmatched": [
+  {
+   "file": "production",
+   "row": 31,
+   "reason": "not_found"
+  },
+  {
+   "file": "montage",
+   "row": 21,
+   "reason": "no_key"
+  },
+  {
+   "file": "montage",
+   "row": 23,
+   "reason": "phone_ambiguous"
+  }
+ ],
+ "reconciliation": {
+  "sales": {
+   "total": 41,
+   "attached": 41,
+   "unmatched": 0,
+   "leads": 0,
+   "empty": 0
+  },
+  "production": {
+   "total": 31,
+   "attached": 29,
+   "unmatched": 1,
+   "leads": 0,
+   "empty": 1
+  },
+  "montage": {
+   "total": 23,
+   "attached": 21,
+   "unmatched": 2,
+   "leads": 0,
+   "empty": 0
+  },
+  "crm": {
+   "total": 28,
+   "attached": 24,
+   "unmatched": 0,
+   "leads": 4,
+   "empty": 0
+  }
+ },
+ "checked_flags": [
+  "нет в таблице продаж",
+  "срок расходится",
+  "дубль с расхождением",
+  "дата не распознана",
+  "нет срока",
+  "неизвестный статус",
+  "закрыт с опозданием",
+  "нет в CRM"
+ ]
+}

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Реестр заказов: продажи, цех, монтаж, CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #F2F3EF; --surface: #FFFFFF; --ink: #1E272B; --muted: #5B676B; --line: #D5D8D0;
+  --edge-ok: #B8A178; --edge-late: #B3361E; --edge-check: #B97E0C; --accent: #2C5A5F; --accent-ink: #FFFFFF;
+  --late-bg: #FBEDE9; --check-bg: #FBF3E3;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #172024; --surface: #212A2E; --ink: #E4E7E2; --muted: #9AA5A7; --line: #35403F;
+    --edge-ok: #8F7B58; --edge-late: #E2644C; --edge-check: #E0A83C; --accent: #86B7B9; --accent-ink: #10181B;
+    --late-bg: #3A2522; --check-bg: #362E1E;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #172024; --surface: #212A2E; --ink: #E4E7E2; --muted: #9AA5A7; --line: #35403F;
+  --edge-ok: #8F7B58; --edge-late: #E2644C; --edge-check: #E0A83C; --accent: #86B7B9; --accent-ink: #10181B;
+  --late-bg: #3A2522; --check-bg: #362E1E;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 15px/1.5 "Golos Text", "Segoe UI", Roboto, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.wrap { max-width: 1320px; margin: 0 auto; padding: 28px 20px 48px; }
+h1 { font-size: 30px; line-height: 1.15; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.01em; }
+h2 { font-size: 19px; font-weight: 600; margin: 36px 0 10px; }
+.lead { color: var(--muted); max-width: 70ch; margin: 0; }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 24px; }
+.slot { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.slot b { font-weight: 600; }
+.slot .hint { font-size: 13px; color: var(--muted); }
+.slot input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.slot .pick { align-self: flex-start; border: 1px solid var(--line); border-radius: 6px; padding: 5px 12px; font-size: 13px; font-weight: 500; cursor: pointer; background: var(--bg); }
+.slot input[type=file]:focus-visible + .pick { outline: 3px solid var(--accent); outline-offset: 2px; }
+.slot .state { font-size: 13px; min-height: 1.5em; }
+.slot .state.err { color: var(--edge-late); }
+.bar { display: flex; flex-wrap: wrap; align-items: end; gap: 14px 22px; margin-top: 16px; }
+.bar label { display: flex; flex-direction: column; font-size: 13px; color: var(--muted); gap: 4px; }
+.bar input[type=date], .bar select { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; color: var(--ink); }
+.bar .check { flex-direction: row; align-items: center; gap: 8px; color: var(--ink); font-size: 15px; padding-bottom: 8px; }
+.demo { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 9px 16px; font-weight: 600; cursor: pointer; }
+.demo-note { font-size: 13px; color: var(--muted); padding-bottom: 9px; }
+
+.summary { font-size: 20px; line-height: 1.45; margin: 28px 0 0; max-width: 62ch; }
+.summary strong { font-weight: 600; }
+.summary .late { color: var(--edge-late); }
+.empty { color: var(--muted); margin-top: 28px; }
+
+.board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(232px, 1fr); gap: 12px; overflow-x: auto; padding: 4px 2px 14px; margin-top: 18px; }
+.col { min-width: 0; }
+.col h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; display: flex; justify-content: space-between; gap: 8px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; }
+.col h3 span { color: var(--muted); font-weight: 500; }
+.col.undef h3 { border-color: var(--edge-check); }
+.card { background: var(--surface); border: 1px solid var(--line); border-left: 7px solid var(--edge-ok); border-radius: 2px 4px 4px 2px; padding: 9px 11px 10px; margin-bottom: 8px; font-size: 14px; }
+.card.check { border-left-color: var(--edge-check); }
+.card.late { border-left-color: var(--edge-late); }
+.card .top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.card .num { font-weight: 600; }
+.card .od { color: var(--edge-late); font-weight: 700; white-space: nowrap; }
+.card .who, .card .when { color: var(--muted); font-size: 13px; }
+.flags { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.flags li { font-size: 12px; padding: 1px 7px; border-radius: 3px; background: var(--check-bg); }
+.flags li.bad { background: var(--late-bg); }
+details.closed > summary { cursor: pointer; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--surface); border: 1px solid var(--line); }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; font-size: 13px; color: var(--muted); }
+td.no { color: var(--edge-late); font-weight: 600; }
+.foot { margin-top: 32px; font-size: 13px; color: var(--muted); max-width: 75ch; }
+@media (max-width: 560px) { h1 { font-size: 25px; } .summary { font-size: 17px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Реестр заказов</h1>
+  <p class="lead">Сводит таблицы продаж, производства, монтажа и выгрузку CRM в один список с этапом, сроком и просрочкой. Файлы обрабатываются в браузере и никуда не отправляются.</p>
+
+  <div class="inputs" id="slots"></div>
+
+  <div class="bar">
+    <label>Дата отчёта<input type="date" id="date"></label>
+    <label>Канал<select id="channel"><option value="">Все каналы</option></select></label>
+    <label class="check"><input type="checkbox" id="onlyLate"> Только просроченные</label>
+    <button class="demo" id="demo" type="button">Открыть демо-данные</button>
+    <span class="demo-note">Синтетический набор: 42 заказа с заложенными ошибками, отчёт на 30.10.2026.</span>
+  </div>
+
+  <div id="out"><p class="empty">Загрузите хотя бы один файл или откройте демо-данные.</p></div>
+
+  <p class="foot">Номер договора приводится к виду «год-номер», телефон к 10 цифрам. Строку без номера договора инструмент привязывает по телефону, только если телефон есть ровно у одного заказа; иначе отправляет её на ручную проверку. Незнакомый статус не меняет этап, а ставит флаг.</p>
+</div>
+
+<script>
+/*__REGISTRY_JS__*/
+</script>
+<script>
+const DEMO = /*__DEMO_DATA__*/;
+const R = window.Registry;
+const state = { loaded: {}, info: {} };
+const SLOT_HINT = {
+  sales: "договор, клиент, телефон, канал, менеджер, срок по договору, статус",
+  production: "номер цеха, договор, клиент, телефон, запуск, готовность, статус",
+  montage: "договор, клиент, телефон, адрес, даты монтажа, бригада, статус",
+  crm: "id сделки, договор, клиент, телефон, этап, срок",
+};
+const REASON = {
+  no_key: "нет ни номера договора, ни телефона",
+  not_found: "заказ не найден ни по договору, ни по телефону",
+  phone_ambiguous: "телефон есть у нескольких заказов, привяжите вручную",
+};
+const BAD = new Set(["дубль с расхождением", "срок расходится", "закрыт с опозданием", "нет срока"]);
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmt = d => d ? `${String(d.getUTCDate()).padStart(2, "0")}.${String(d.getUTCMonth() + 1).padStart(2, "0")}.${d.getUTCFullYear()}` : "нет";
+function plural(n, a, b, c) { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; }
+
+function buildSlots() {
+  $("slots").innerHTML = Object.entries(R.SOURCES).map(([k, s]) => `
+    <div class="slot"><b>${s.title}</b><span class="hint">Колонки: ${SLOT_HINT[k]}</span>
+      <input type="file" accept=".csv,text/csv" id="f-${k}" aria-label="Файл: ${s.title}"><label class="pick" for="f-${k}">Выбрать файл</label>
+      <span class="state" id="s-${k}">Файл не выбран</span></div>`).join("");
+  for (const k of Object.keys(R.SOURCES)) {
+    $("f-" + k).addEventListener("change", async e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      load(k, new Uint8Array(await f.arrayBuffer()), f.name);
+    });
+  }
+}
+
+function load(k, bytes, name) {
+  const res = R.readSource(k, bytes);
+  const st = $("s-" + k);
+  if (res.error) { delete state.loaded[k]; st.className = "state err"; st.textContent = res.error; }
+  else {
+    state.loaded[k] = res; st.className = "state";
+    const n = res.rows.length;
+    st.textContent = `${name}: ${n} ${plural(n, "строка", "строки", "строк")}, ${res.encoding}, разделитель «${res.delim}»`;
+  }
+  render();
+}
+
+function reportDate() {
+  const v = $("date").value;
+  if (!v) return null;
+  const [y, m, d] = v.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d));
+}
+
+function card(o) {
+  const late = o.overdueDays > 0, chk = o.flags.some(f => f !== "нет в CRM");
+  const cls = late ? "late" : chk ? "check" : "";
+  const flags = o.flags.map(f => `<li class="${BAD.has(f) ? "bad" : ""}">${esc(f)}</li>`).join("");
+  return `<article class="card ${cls}">
+    <div class="top"><span class="num">${esc(o.contract || o.key)}</span>${late ? `<span class="od" title="просрочка">+${o.overdueDays} ${plural(o.overdueDays, "день", "дня", "дней")}</span>` : ""}</div>
+    <div>${esc(o.client)}, ${esc(o.channel)}</div>
+    <div class="when">${o.deadline ? "Срок " + fmt(o.deadline) : "Срока нет"}</div>
+    <div class="who">Отвечает: ${esc(o.responsible)}</div>
+    ${flags ? `<ul class="flags">${flags}</ul>` : ""}</article>`;
+}
+
+function render() {
+  const out = $("out");
+  if (!Object.keys(state.loaded).length) { out.innerHTML = `<p class="empty">Загрузите хотя бы один файл или откройте демо-данные.</p>`; return; }
+  const D = reportDate();
+  if (!D) { out.innerHTML = `<p class="empty">Укажите дату отчёта: от неё считается просрочка.</p>`; return; }
+  const res = R.build(state.loaded, D);
+
+  const sel = $("channel"), cur = sel.value;
+  const chans = [...new Set(res.orders.map(o => o.channel))].sort();
+  sel.innerHTML = `<option value="">Все каналы</option>` + chans.map(c => `<option${c === cur ? " selected" : ""}>${esc(c)}</option>`).join("");
+
+  const work = res.orders.filter(o => o.stage !== "Закрыт");
+  const late = work.filter(o => o.overdueDays > 0);
+  const noCrm = res.orders.filter(o => o.flags.includes("нет в CRM")).length;
+  const pct = work.length ? Math.round(late.length / work.length * 100) : 0;
+  const crmPart = state.loaded.crm ? `Нет в CRM: <strong>${noCrm}</strong> из ${res.orders.length}.` : `CRM не загружена, пропуски в ней не считаются.`;
+  const summary = `<p class="summary">В работе <strong>${work.length}</strong> ${plural(work.length, "заказ", "заказа", "заказов")}. ` +
+    `Просрочено <strong class="late">${late.length}</strong>, это ${pct}\u00a0%. ${crmPart} ` +
+    `Ждут ручной проверки: <strong>${res.review.length}</strong> ${plural(res.review.length, "строка", "строки", "строк")}.</p>`;
+
+  const ch = sel.value, onlyLate = $("onlyLate").checked;
+  const shown = res.orders.filter(o => (!ch || o.channel === ch) && (!onlyLate || o.overdueDays > 0));
+  const cols = ["Не определён", ...R.STAGES.slice(0, 6), "Рекламация", "Закрыт"];
+  const board = cols.map(s => {
+    const list = shown.filter(o => o.stage === s);
+    if (s === "Не определён" && !list.length) return "";
+    const cards = list.map(card).join("");
+    const body = s === "Закрыт" && list.length
+      ? `<details class="closed"><summary>Показать ${list.length}</summary>${cards}</details>` : cards;
+    return `<section class="col${s === "Не определён" ? " undef" : ""}" aria-label="${s}"><h3>${s}<span>${list.length}</span></h3>${body}</section>`;
+  }).join("");
+
+  const review = res.review.length ? `<div class="tbl"><table><thead><tr><th>Файл</th><th>Строка в Excel</th><th>Что не так</th><th>Значения</th></tr></thead><tbody>` +
+    res.review.map(u => `<tr><td>${R.SOURCES[u.file].title}</td><td>${u.row + 1}</td><td>${REASON[u.reason]}</td><td>${esc(u.raw.filter(Boolean).join(", "))}</td></tr>`).join("") +
+    `</tbody></table></div>` : `<p class="empty">Все строки привязаны к заказам.</p>`;
+
+  const recon = `<div class="tbl"><table><thead><tr><th>Файл</th><th>Кодировка</th><th>Строк</th><th>В заказах</th><th>На проверку</th><th>Лиды</th><th>Пустые</th><th>Сходится</th></tr></thead><tbody>` +
+    Object.entries(res.recon).map(([k, c]) => `<tr><td>${R.SOURCES[k].title}</td><td>${c.encoding}</td><td>${c.total}</td><td>${c.attached}</td><td>${c.unmatched}</td><td>${c.leads}</td><td>${c.empty}</td><td class="${c.balanced ? "" : "no"}">${c.balanced ? "да" : "нет"}</td></tr>`).join("") +
+    `</tbody></table></div>`;
+
+  out.innerHTML = summary + `<div class="board">${board}</div>` +
+    `<h2>Требует проверки</h2>${review}<h2>Сверка строк</h2><p class="lead">Каждая строка каждого файла попадает ровно в одну графу. Если «Сходится: нет», значит что-то потерялось.</p>${recon}`;
+}
+
+function b64(s) { const bin = atob(s); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; }
+$("demo").addEventListener("click", () => {
+  $("date").value = "2026-10-30";
+  for (const [k, v] of Object.entries(DEMO)) load(k, b64(v), `${k}.csv`);
+});
+$("date").addEventListener("change", render);
+$("channel").addEventListener("change", render);
+$("onlyLate").addEventListener("change", render);
+(function init() {
+  const t = new Date();
+  $("date").value = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
+  buildSlots();
+})();
+</script>
+</body>
+</html>
